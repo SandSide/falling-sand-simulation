@@ -9,7 +9,6 @@ function createGrid(width, height, size){
     const gridValues = Array.from({ length: height }, () => Array(width).fill(null));
     const gridElements = Array.from({ length: height }, () => Array(width).fill(null));
 
-
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
 
@@ -31,6 +30,8 @@ function updateGridValues(gridValues){
     
     console.log('Update');
 
+    const changes = [];
+
     for (let row = gridValues.length - 2; row >= 0; row--) {
         for (let col = 0; col < gridValues[row].length; col++) {
 
@@ -41,21 +42,23 @@ function updateGridValues(gridValues){
 
                 console.log(`Found ${value} at [${row},${col}]`);
 
-                const belowValue = gridValues[row+1][col];
+                const belowValue = gridValues[row + 1][col];
 
                 // Check if down empty
                 if (belowValue === null){
 
-                    console.log(`Moving down to ${row+1},${col}`);
+                    console.log(`Moving down to ${row + 1},${col}`);
 
                     gridValues[row][col] = null;
-                    gridValues[row+1][col] = value;
+                    gridValues[row + 1][col] = value;
 
+                    changes.push({ row, col, newRow: row + 1, newCol: col, value });
                 }
             }
         }     
     }
 
+    return changes;
 }
 
 function updateGridElements(gridValues, gridElements){
@@ -74,32 +77,58 @@ function updateGridElements(gridValues, gridElements){
             }
         }
     }
+}
 
+function updateGridElementsByChange(gridElements, changes){
 
+    if (changes.length === 0){
+        console.log(`No changes found`);
+        return;
+    }
+        
+    console.log(`Updating grid elements with ${changes.length} changes`);
+
+    changes.forEach(change => {
+
+        const { row, col, newRow, newCol, value } = change;
+
+        gridElements[row][col].style.backgroundColor = 'black';
+        gridElements[newRow][col].style.backgroundColor = 'yellow';
+        
+    });
 }
 
 function updateGrid(gridValues, gridElements){
-
-    updateGridValues(gridValues);
-    updateGridElements(gridValues, gridElements);
+    const changes = updateGridValues(gridValues);
+    updateGridElementsByChange(gridElements, changes);
 }
 
 function populateGridRandom(num, gridValues){
+
+    console.log(`Populating grid by ${num} randomly`);
+
+    const changes = [];
+    const value = 1;
 
     for (let i = 0; i < num; i++) {
         const row = 0;
         const col = Math.floor(Math.random() * gridValues[0].length);
 
-        gridValues[row][col] = 1;
+        gridValues[row][col] = value;
+
+        changes.push({ row, col, newRow: row, newCol: col, value });
     }
+
+    return changes;
 }
 
 window.onload = function(){
-    const { gridValues, gridElements } = createGrid(400, 400, '2px');
+    const { gridValues, gridElements } = createGrid(100, 100, '5px');
 
-    populateGridRandom(20, gridValues, gridElements);
+    const changes = populateGridRandom(20, gridValues, gridElements);
+    updateGridElementsByChange(gridElements, changes);
 
-    updateGrid(gridValues, gridElements);
-    // setInterval(updateGrid, 100, gridValues, gridElements);
+    // Update
+    setInterval(updateGrid, 50, gridValues, gridElements);
 
 }
