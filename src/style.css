@@ -5,3 +5,8 @@
 .node{
     background-color: black;
 }
+
+#grid-canvas{
+    display: block; 
+    image-rendering: pixelated; 
+}

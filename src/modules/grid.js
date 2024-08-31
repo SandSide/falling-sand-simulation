@@ -1,5 +1,5 @@
-export function initGrid(width, height){
-    const gridData = Array.from({ length: height }, () => Array(width).fill(null));
+export function initGrid(rows, cols){
+    const gridData = Array.from({ length: rows }, () => Array(cols).fill(null));
     return gridData;
 }
 
