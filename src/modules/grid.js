@@ -47,6 +47,7 @@ export function updateGrid(grid){
 }
 
 export function updateGridUsingActiveCells(grid, activeCells){
+
     console.log('Updating grid using active cells');
 
     const changes = [];
@@ -84,11 +85,9 @@ export function updateGridUsingActiveCells(grid, activeCells){
                     value 
                 });
 
-
             }
 
         }
-
 
     });
 

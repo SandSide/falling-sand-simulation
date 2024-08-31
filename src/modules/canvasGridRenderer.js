@@ -17,9 +17,33 @@ export function renderGrid(grid, pixelSize){
 
             const color = grid[row][col] ?? 'black';
             ctx.fillStyle = color;
-            ctx.fillRect(col * pixelSize, row*pixelSize, pixelSize, pixelSize); 
+            ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize); 
         }  
     }
 
     return ctx;
+}
+
+export function renderGridChanges(ctx, changes, pixelSize){
+
+    if (changes.length === 0){
+        console.log(`No changes found`);
+        return;
+    }
+
+    console.log(`Rendering grid elements with ${changes.length} changes`);
+
+    changes.forEach(change => {
+
+        const { oldRow, oldCol, newRow, newCol, value } = change;
+
+        let color = 'black';
+        ctx.fillStyle = color;
+        ctx.fillRect(oldCol * pixelSize, oldRow * pixelSize, pixelSize, pixelSize); 
+
+        color = value;
+        ctx.fillStyle = color;
+        ctx.fillRect(newCol * pixelSize, newRow * pixelSize, pixelSize, pixelSize); 
+
+    });
 }
