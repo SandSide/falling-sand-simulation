@@ -35,13 +35,11 @@ export function renderGridChanges(ctx, changes, pixelSize){
 
     changes.forEach(change => {
 
-        const { oldRow, oldCol, newRow, newCol, value } = change;
+        const { oldRow, oldCol, newRow, newCol, color } = change;
 
-        let color = 'black';
-        ctx.fillStyle = color;
+        ctx.fillStyle = 'black';
         ctx.fillRect(oldCol * pixelSize, oldRow * pixelSize, pixelSize, pixelSize); 
 
-        color = value;
         ctx.fillStyle = color;
         ctx.fillRect(newCol * pixelSize, newRow * pixelSize, pixelSize, pixelSize); 
 

@@ -57,7 +57,7 @@ export function updateGridUsingActiveCells(grid, activeCells){
 
     activeCells.forEach(cell => {
         
-        const { row, col, value } = cell;
+        const { row, col, color } = cell;
 
         // If not at bottom
         if ( row < rowSize){
@@ -69,20 +69,20 @@ export function updateGridUsingActiveCells(grid, activeCells){
                 // console.log(`Moving [${row},${col}] down to [${row + 1},${col}]`);
                 
                 grid[row][col] = null;
-                grid[row + 1][col] = value;
+                grid[row + 1][col] = color;
                 
                 changes.push({ 
                     oldRow: row, 
                     oldCol: col, 
                     newRow: row + 1, 
                     newCol: col, 
-                    value 
+                    color: color 
                 });
 
                 newActiveCells.push({ 
                     row: row + 1, 
                     col: col, 
-                    value 
+                    color: color 
                 });
 
             }

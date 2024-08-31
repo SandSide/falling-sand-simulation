@@ -42,10 +42,10 @@ export function renderGridChanges(renderedGrid, changes){
 
     changes.forEach(change => {
 
-        const { oldRow, oldCol, newRow, newCol, value } = change;
+        const { oldRow, oldCol, newRow, newCol, color } = change;
 
         renderedGrid[oldRow][oldCol].style.backgroundColor = 'black';
-        renderedGrid[newRow][newCol].style.backgroundColor = value;
+        renderedGrid[newRow][newCol].style.backgroundColor = color;
         
     });
 
