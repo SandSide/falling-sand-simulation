@@ -31,7 +31,7 @@ export function renderGrid(grid, cellSize){
     return gridElements;
 }
 
-export function renderGridByChanges(renderedGrid, changes){
+export function renderGridChanges(renderedGrid, changes){
 
     if (changes.length === 0){
         console.log(`No changes found`);

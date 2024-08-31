@@ -1,27 +1,30 @@
 import { initGrid, updateGrid, updateGridUsingActiveCells } from "./modules/grid.js";
 import { populateGridRandom } from "./modules/populateGridRandom.js";
-import { renderGrid, renderGridByChanges } from "./modules/divGridRenderer.js";
+import { renderGrid, renderGridChanges } from "./modules/divGridRenderer.js";
 
 window.onload = function(){
 
-    const width = 100;
+    const width = 200;
     const height = 100;
     const cellSize = 5;
 
     // Init grid
     const gridData = initGrid(width, height);
-    const { temp, activeCells } = populateGridRandom(gridData, 10);
+    let activeCells = populateGridRandom(gridData, 100);
 
     // Init grid rendering
     let renderedGrid = renderGrid(gridData, cellSize);
 
+    function updateAndRender(){
+        const { changes, newActiveCells } = updateGridUsingActiveCells(gridData, activeCells);
+        activeCells = newActiveCells;
 
-    // function updateAndRender(){
-        const test = updateGridUsingActiveCells(gridData, activeCells);
-        // renderGridByChanges(renderedGrid, changes);
-    // }
+        if (changes.length === 0)
+            return;
 
-    // setInterval(updateAndRender, 200)
+        renderGridChanges(renderedGrid, changes);
+    }
 
+    setInterval(updateAndRender, 100)
 
 }
