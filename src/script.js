@@ -108,6 +108,7 @@ function populateGridRandom(num, gridValues){
     console.log(`Populating grid by ${num} randomly`);
 
     const changes = [];
+    // const 
     const value = 1;
 
     for (let i = 0; i < num; i++) {
@@ -122,13 +123,35 @@ function populateGridRandom(num, gridValues){
     return changes;
 }
 
+function drawGrid(width, height, size){
+
+    var c = document.getElementById("grid-canvas");
+    var ctx = c.getContext("2d");
+
+    // for (let row = 0; row < height; row++) {
+    //     for (let col = 0; col < width; col++) {
+
+      
+
+    //     }
+    // }
+    
+    ctx.moveTo(10, 1);
+    ctx.lineTo(10, 1);
+    ctx.stroke();
+
+
+}
+
 window.onload = function(){
-    const { gridValues, gridElements } = createGrid(100, 100, '5px');
+
+    // drawGrid();
+    const { gridValues, gridElements } = createGrid(300, 100, '5px');
 
     const changes = populateGridRandom(20, gridValues, gridElements);
     updateGridElementsByChange(gridElements, changes);
 
-    // Update
+    // // Update
     setInterval(updateGrid, 50, gridValues, gridElements);
 
 }
