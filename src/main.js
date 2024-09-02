@@ -43,7 +43,6 @@ window.onload = function(){
     });
 
     document.getElementById('grid-canvas').addEventListener('mouseup', function (e) {
-        isMouseDown = false;
         clearInterval(intervalId);
     });
 

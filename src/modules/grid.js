@@ -66,17 +66,26 @@ export function updateGridUsingActiveCells(grid, activeCells){
             const bottomL = grid[row + 1][col - 1];
             const bottomR = grid[row + 1][col + 1];
 
-            let newRow, newCol;
-
+            let newRow = row;
+            let newCol = col;
+            
             if (bottom === null){
                 newRow = row + 1;
-                newCol = col;
+
+            } else if (bottomL === null && bottomR === null){
+                newCol = col + (Math.random() < 0.5 ? -1 : 1)
+                newRow = row + 1;
+
             } else if (bottomL === null){
                 newRow = row + 1;
                 newCol = col - 1;
+
             } else if (bottomR === null){
                 newRow = row + 1;
                 newCol = col + 1;
+                
+            } else{
+                newCol, newRow = null;
             }
 
             if (newRow && newCol){
