@@ -6,7 +6,7 @@ window.onload = function(){
 
     const rows = 40;
     const cols = 40;
-    const cellSize = 5;
+    const cellSize = 10;
 
     // Init grid
     const gridData = initGrid(rows, cols);
@@ -15,40 +15,75 @@ window.onload = function(){
     // let activeCells = populateGridRandom(gridData, 20);
     let activeCells = [];
     
-
     function updateAndRender(){
 
         const { changes, newActiveCells } = updateGridUsingActiveCells(gridData, activeCells);
         activeCells = newActiveCells;
-
         renderGridChanges(renderedGrid, changes, cellSize);
     }
 
-    setInterval(updateAndRender, 20)
+    setInterval(updateAndRender, 20);
+
+    let isMouseDown = false;
+    let intervalId;
+    let mousePos;
 
     document.getElementById('grid-canvas').addEventListener('mousedown', function (e) {
-        const mousePos = getMousePosition(this, e);
-        const gridPos = worldToGridPosition(mousePos, cellSize);
+        mousePos = getMousePosition(this, e);
+        
 
-        console.log(gridPos);
-
-        if (gridData[gridPos.row][gridPos.col] === null){
-
-            console.log('Adding new cell');
-
-
-            const color = getRandomColor();
-
-            activeCells.push({ 
-                row: gridPos.row, 
-                col: gridPos.col, 
-                color: color
-            });
-        }
+        isMouseDown = true;
+        // addCell(gridData, activeCells, gridPos);
+        intervalId = setInterval(() => {
+            const gridPos = worldToGridPosition(mousePos, cellSize);
+            addCell(gridData, activeCells, gridPos);
+        }, 50);
 
     });
 
+    document.getElementById('grid-canvas').addEventListener('mousemove', function (e) {
+
+        mousePos = getMousePosition(this, e);
+
+        // if (isMouseDown){
+        //     const mousePos = getMousePosition(this, e);
+        //     const gridPos = worldToGridPosition(mousePos, cellSize);
+        //     addCell(gridData, activeCells, gridPos);
+        // }
+
+    });
+
+    document.getElementById('grid-canvas').addEventListener('mouseup', function (e) {
+        isMouseDown = false;
+        clearInterval(intervalId);
+    });
+
 }
+
+function initEventListeners(grid, activeCells, cellSize){
+
+
+    
+}
+
+function addCell(grid, activeCells, gridPos){
+
+    if (grid[gridPos.row][gridPos.col] === null){
+
+        console.log('Adding new cell');
+
+        const color = getRandomColor();
+        grid[gridPos.row][gridPos.col] = color;
+
+        activeCells.push({ 
+            row: gridPos.row, 
+            col: gridPos.col, 
+            color: color
+        });
+    }
+
+}
+
 
 function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect();
