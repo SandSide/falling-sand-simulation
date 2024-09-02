@@ -62,29 +62,41 @@ export function updateGridUsingActiveCells(grid, activeCells){
         // If not at bottom
         if ( row < rowSize){
 
-            const bottomCell = grid[row + 1][col];
+            const bottom = grid[row + 1][col];
+            const bottomL = grid[row + 1][col - 1];
+            const bottomR = grid[row + 1][col + 1];
 
-            if (bottomCell === null){
+            let newRow, newCol;
 
-                // console.log(`Moving [${row},${col}] down to [${row + 1},${col}]`);
-                
+            if (bottom === null){
+                newRow = row + 1;
+                newCol = col;
+            } else if (bottomL === null){
+                newRow = row + 1;
+                newCol = col - 1;
+            } else if (bottomR === null){
+                newRow = row + 1;
+                newCol = col + 1;
+            }
+
+            if (newRow && newCol){
+
                 grid[row][col] = null;
-                grid[row + 1][col] = color;
-                
+                grid[newRow][newCol] = color;
+
                 changes.push({ 
                     oldRow: row, 
                     oldCol: col, 
-                    newRow: row + 1, 
-                    newCol: col, 
+                    newRow: newRow, 
+                    newCol: newCol, 
                     color: color 
                 });
 
                 newActiveCells.push({ 
-                    row: row + 1, 
-                    col: col, 
+                    row: newRow,
+                    col: newCol, 
                     color: color 
                 });
-
             }
 
         }
