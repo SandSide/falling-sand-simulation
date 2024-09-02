@@ -54,6 +54,7 @@ export function updateGridUsingActiveCells(grid, activeCells){
     const rowSize = grid.length - 1;
     const colSize = grid[0].length - 1;
     const newActiveCells = [];
+    
 
     activeCells.forEach(cell => {
         

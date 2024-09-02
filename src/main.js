@@ -4,27 +4,25 @@ import { renderGrid, renderGridChanges } from "./modules/canvasGridRenderer.js";
 
 window.onload = function(){
 
-    const rows = 40;
-    const cols = 40;
-    const cellSize = 10;
+    const rows = 100;
+    const cols = 100;
+    const cellSize = 4;
 
     // Init grid
     const gridData = initGrid(rows, cols);
-    let renderedGrid = renderGrid(gridData, cellSize);
+    const renderedGrid = renderGrid(gridData, cellSize);
 
-    // let activeCells = populateGridRandom(gridData, 20);
-    let activeCells = [];
-    
-    function updateAndRender(){
-
+    const updateAndRender = () => {
         const { changes, newActiveCells } = updateGridUsingActiveCells(gridData, activeCells);
         activeCells = newActiveCells;
         renderGridChanges(renderedGrid, changes, cellSize);
     }
 
-    setInterval(updateAndRender, 20);
+    let activeCells = [];
+    setInterval(updateAndRender, 10);
 
-    // Mouse interaction
+
+    // Mouse interaction handlers
     let intervalId;
     let mousePos;
 
@@ -33,7 +31,17 @@ window.onload = function(){
 
         intervalId = setInterval(() => {
             const gridPos = worldToGridPosition(mousePos, cellSize);
-            addCell(gridData, activeCells, gridPos);
+
+            for (let i = gridPos.col - 1; i < gridPos.col + 1; i++) {
+
+                for (let j = gridPos.row - 1; j < gridPos.row + 1; j++) {
+
+                    const pos = {row: j, col: i};
+                    const color = getRandomColor();
+                    addCell(gridData, activeCells, pos, color);
+                }
+            }
+
         }, 50);
 
     });
@@ -48,13 +56,9 @@ window.onload = function(){
 
 }
 
-function addCell(grid, activeCells, gridPos){
+function addCell(grid, activeCells, gridPos, color){
 
     if (grid[gridPos.row][gridPos.col] === null){
-
-        console.log('Adding new cell');
-
-        const color = getRandomColor();
 
         grid[gridPos.row][gridPos.col] = color;
 
@@ -74,18 +78,16 @@ function getMousePosition(canvas, event) {
     return { x,y };
 }
 
-function worldToGridPosition(worldPos, pixelSize){
+function worldToGridPosition(worldPos, cellSize){
     return {
-        col: Math.floor(worldPos.x / pixelSize),
-        row: Math.floor(worldPos.y / pixelSize),
+        col: Math.floor(worldPos.x / cellSize),
+        row: Math.floor(worldPos.y / cellSize),
     }
 }
 
+let hue = 0;
+
 function getRandomColor(){
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    hue = (hue + 1) % 360;
+    return `hsl(${hue}, 75%, 50%)`;
 }
