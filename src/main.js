@@ -2,14 +2,17 @@ import { renderGrid } from "./modules/canvasGridRenderer.js";
 import { Element } from "./modules/elements.js";
 import { fall, float } from "./modules/behavior.js";
 import GridManager from "./modules/GridManager.js";
-import { handleUserClick } from "./modules/interactionHandlers.js";
+import { handleUserClick, handleElementSwitch } from "./modules/interactionHandlers.js";
 import { ElementSelector } from "./modules/ElementSelector.js";
-
+12
 window.onload = () => {
 
     // Element prototypes
-    const sand = new Element('sand', 'yellow', fall, { velocity: 2, maxVelocity: 2 })
-    const cloud = new Element('cloud', 'white', float, {})
+    const sand = new Element('sand', 'yellow', fall, { velocity: 1, maxVelocity: 2 })
+    const water = new Element('sand', 'blue', fall, { velocity: 1, maxVelocity: 2 })
+    const cloud = new Element('smoke32', 'grey', float, {})
+    
+    const elements = [sand, sand, water, cloud];
 
     const rows = 40;
     const cols = 40;
@@ -22,11 +25,14 @@ window.onload = () => {
     startAnimation(gridManager, cellSize);
 
     const elementSelector = new ElementSelector();
-    elementSelector.setSelectedElement(water);
+    elementSelector.setSelectedElement(water);21111
 
     const canvas = document.getElementById('grid');
     document.getElementById('grid').addEventListener('mousedown', (e) => handleUserClick(e, canvas, gridManager, elementSelector, cellSize));
     document.getElementById('grid').addEventListener('mousemove', (e) => handleUserClick(e, canvas, gridManager, elementSelector, cellSize));
+
+    document.addEventListener('keydown', (e) => handleElementSwitch(e, elementSelector, elements));
+
 }
 
 function startAnimation(gridManager, cellSize){
@@ -49,7 +55,7 @@ function startAnimation(gridManager, cellSize){
 
 const updateGrid = (grid) => {
 
-    const rows = grid.length;
+    const rows = grid.length;21
     const cols = grid[0].length;
 
     const nextGrid = Array.from({ length: rows }, () => Array(cols).fill(null));

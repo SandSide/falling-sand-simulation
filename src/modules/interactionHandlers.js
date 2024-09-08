@@ -7,9 +7,20 @@ export function handleUserClick(event, canvas, gridManager, elementSelector, cel
     console.log(`Adding ${element.name} at ${gridPos.col},${gridPos.row}`);
     
     const success = gridManager.addElement(element, gridPos.col, gridPos.row);
+}
 
+export function handleElementSwitch(event, elementSelector, elements) {
+    const key = parseInt(event.key);
+
+    if (key > 0 && key < elements.length){
+        const element = elements[key]
+
+        if (element)
+            elementSelector.setSelectedElement(element);
+    }
 
 }
+
 
 function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect();
