@@ -1,59 +1,51 @@
 import { renderGrid } from "./modules/canvasGridRenderer.js";
 import { Element } from "./modules/elements.js";
 import { fall, float } from "./modules/behavior.js";
+import GridManager from "./modules/GridManager.js";
+import { handleUserClick } from "./modules/interactionHandlers.js";
+
+
 
 window.onload = () => {
 
-    const rows = 100;
-    const cols = 100;
-    const cellSize = 5;
+    // Element prototypes
+    const sand = new Element('sand', 'yellow', fall, { fallingSpeed: 1 })
+    const cloud = new Element('cloud', 'white', float, {})
+
+    const rows = 40;
+    const cols = 40;
+    const cellSize = 10;
 
     let grid = Array.from({ length: rows }, () => Array(cols).fill(null));
+    const gridManager = new GridManager(grid);
+    gridManager.addElement(sand, 1, 1);
 
-    const sand = new Element(
-        'sand', 
-        'yellow', 
-        fall,
-        {
-            fallingSpeed: 1
-        }
-    )
+    startAnimation(gridManager, cellSize);
 
-    const cloud = new Element(
-        'cloud', 
-        'white', 
-        float,
-        {}
-    )
 
-    grid[1][1] = sand;
-    grid[55][5] = cloud;
+    const canvas = document.getElementById('grid');
 
-    const update = () => {
+    document.getElementById('grid').addEventListener('mousedown', (e) => handleUserClick(e, canvas, gridManager, sand, cellSize));
 
-        console.log('Updating')
+}
+
+function startAnimation(gridManager, cellSize){
+    
+    function update(){
+        console.log('Updating');
+
+        const grid = gridManager.getGrid();
         const nextGrid = updateGrid(grid);
-        renderGrid(nextGrid, cellSize);
-        grid = nextGrid;
-     
+        gridManager.setGrid(nextGrid);
+        renderGrid(gridManager.getGrid(), cellSize);
+
         requestAnimationFrame(update);
     }
 
     requestAnimationFrame(update);
 
-    
-    // setInterval(update, 20);
-
-    // const spawnSand = () => {
-
-    //     grid[1][1] = sand;
-    //     grid[99][10] = cloud;
-     
-    // }
-
-    // setInterval(spawnSand, 20);
-
 }
+
 
 const updateGrid = (grid) => {
 
@@ -70,8 +62,6 @@ const updateGrid = (grid) => {
             if (element) {
                 element.step(grid, nextGrid, row, col);
             }
-
-
         }
     }
 
