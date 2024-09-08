@@ -8,7 +8,7 @@ import { ElementSelector } from "./modules/ElementSelector.js";
 window.onload = () => {
 
     // Element prototypes
-    const sand = new Element('sand', 'yellow', fall, { fallingSpeed: 1 })
+    const sand = new Element('sand', 'yellow', fall, { velocity: 2, maxVelocity: 2 })
     const cloud = new Element('cloud', 'white', float, {})
 
     const rows = 40;
@@ -22,11 +22,11 @@ window.onload = () => {
     startAnimation(gridManager, cellSize);
 
     const elementSelector = new ElementSelector();
-    elementSelector.setSelectedElement(sand);
+    elementSelector.setSelectedElement(water);
 
     const canvas = document.getElementById('grid');
     document.getElementById('grid').addEventListener('mousedown', (e) => handleUserClick(e, canvas, gridManager, elementSelector, cellSize));
-
+    document.getElementById('grid').addEventListener('mousemove', (e) => handleUserClick(e, canvas, gridManager, elementSelector, cellSize));
 }
 
 function startAnimation(gridManager, cellSize){
