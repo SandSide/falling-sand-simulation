@@ -3,8 +3,7 @@ import { Element } from "./modules/elements.js";
 import { fall, float } from "./modules/behavior.js";
 import GridManager from "./modules/GridManager.js";
 import { handleUserClick } from "./modules/interactionHandlers.js";
-
-
+import { ElementSelector } from "./modules/ElementSelector.js";
 
 window.onload = () => {
 
@@ -22,10 +21,11 @@ window.onload = () => {
 
     startAnimation(gridManager, cellSize);
 
+    const elementSelector = new ElementSelector();
+    elementSelector.setSelectedElement(sand);
 
     const canvas = document.getElementById('grid');
-
-    document.getElementById('grid').addEventListener('mousedown', (e) => handleUserClick(e, canvas, gridManager, sand, cellSize));
+    document.getElementById('grid').addEventListener('mousedown', (e) => handleUserClick(e, canvas, gridManager, elementSelector, cellSize));
 
 }
 

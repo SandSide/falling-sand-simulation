@@ -25,6 +25,4 @@ export default class GridManager {
         return x >= 0 && y >= 0 && y < this.grid.length && x < this.grid[0].length;
     }
 
-
-
 }

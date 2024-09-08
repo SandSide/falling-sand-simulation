@@ -9,6 +9,15 @@ export class Element {
     step(grid, nextGrid, row, col){
         this.behavior(grid, nextGrid, row, col, this);
     }
+
+    copy(){
+        return new Element(
+            this.type,
+            this.color,
+            this.behavior,
+            { ...this.properties }
+        );
+    }
 }
 
 

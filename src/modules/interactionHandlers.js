@@ -1,11 +1,13 @@
-export function handleUserClick(event, canvas, gridManager, element, cellSize){
+export function handleUserClick(event, canvas, gridManager, elementSelector, cellSize){
     const mousePos = getMousePosition(canvas, event);
     const gridPos = worldToGridPosition(mousePos, cellSize);
 
+
+    const element = elementSelector.getSelectedElement();
     console.log(`Adding ${element.name} at ${gridPos.col},${gridPos.row}`);
+    
     const success = gridManager.addElement(element, gridPos.col, gridPos.row);
 
-    console.log(gridManager.grid)
 
 }
 
